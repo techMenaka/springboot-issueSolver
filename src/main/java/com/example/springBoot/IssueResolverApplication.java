@@ -1,8 +1,15 @@
 package com.example.springBoot;
 
+import com.example.cassandra.LoginEvent;
 import com.example.rxJava.SimpleObservable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.data.cassandra.core.CassandraOperations;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -20,13 +27,28 @@ public class IssueResolverApplication {
     private final Character m_value = 'a';
 
     public String toString() { return "" + m_value; }
+
+
+
+    @Autowired
+    @Qualifier("cassandraTemplate")
+    private static CassandraOperations cassandraOperations;
+
+
+
     public static void main(String[] args) throws IOException {
 
-        SpringApplication.run(IssueResolverApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(IssueResolverApplication.class, args);
         rxJavaExample();
         rxJavaExample2();
         rxJavaExample3();
         rxJavaExample4();
+
+        cassandraOperations = context.getBean("cassandraTemplate", CassandraOperations.class);
+
+
+        //cassandraOperations.insert(new LoginEvent("1", "01", "10.50.129.234"));
+
 
     }
 
