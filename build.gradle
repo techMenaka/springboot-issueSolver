@@ -34,7 +34,8 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     /* Spring boot starter is required to boot the application*/
     compile('org.springframework.social:spring-social-github:1.0.0.M4')
     compile('io.reactivex:rxjava:1.1.6')
@@ -45,6 +46,7 @@ dependencies {
    // compile("com.google.guava:guava:16.0.1")
     /* Bring in Spring boot features */
     compile("io.netty:netty-all:4.1.5.Final")
+    compile('org.projectlombok:lombok:+')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -1,6 +1,9 @@
 package com.example.springBoot;
 
 import com.example.cassandra.LoginEvent;
+import com.example.cassandra.LoginEventKey;
+import com.example.cassandra.repository.LogEventRepository;
+import com.example.cassandra.repository.LoginEventQueryBuilder;
 import com.example.rxJava.SimpleObservable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.cassandra.core.CassandraOperations;
 
 import java.io.IOException;
@@ -20,21 +24,16 @@ import rx.Observable;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.example" })
 public class IssueResolverApplication {
     private static final char SEPARATOR = 0x20;
     private static final int MESSAGE_TYPE = 1;
 
     private final Character m_value = 'a';
 
+    private static LoginEventQueryBuilder loginEventQueryBuilder;
+
     public String toString() { return "" + m_value; }
-
-
-
-    @Autowired
-    @Qualifier("cassandraTemplate")
-    private static CassandraOperations cassandraOperations;
-
-
 
     public static void main(String[] args) throws IOException {
 
@@ -44,11 +43,18 @@ public class IssueResolverApplication {
         rxJavaExample3();
         rxJavaExample4();
 
-        cassandraOperations = context.getBean("cassandraTemplate", CassandraOperations.class);
+        CassandraOperations cassandraOperations = context.getBean("cassandraTemplate", CassandraOperations.class);
+        LoginEventQueryBuilder loginEventQueryBuilder = context.getBean("loginEventQueryBuilder", LoginEventQueryBuilder.class);
 
-
-        //cassandraOperations.insert(new LoginEvent("1", "01", "10.50.129.234"));
-
+        LogEventRepository logEventRepository = new LogEventRepository(cassandraOperations, loginEventQueryBuilder);
+        LoginEvent loginEvent = new LoginEvent();
+        LoginEventKey loginEventKey = new LoginEventKey();
+        loginEventKey.setPersonId("1");
+        loginEventKey.setEventTime(new Date());
+        loginEvent.setPk(loginEventKey);
+        loginEvent.setEventCode(01);
+        loginEvent.setIpAddress("20.0.0.0");
+        logEventRepository.executeLogEventQuery(loginEvent);
 
     }
 

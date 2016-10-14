@@ -24,7 +24,7 @@ package com.example.config;
 
 @Configuration
 @PropertySource(value = { "classpath:cassandra.properties" })
-@EnableCassandraRepositories(basePackages = { "com.example.cassandra.repo" })
+@EnableCassandraRepositories(basePackages = { "com.example" })
 public class CassandraConfig {
 
     private static final Logger LOG = LoggerFactory.getLogger(CassandraConfig.class);
