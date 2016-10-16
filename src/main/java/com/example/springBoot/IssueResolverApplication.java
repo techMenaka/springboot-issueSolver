@@ -36,6 +36,7 @@ public class IssueResolverApplication {
 
     @Autowired
     CassandraOperations cassandraOperations;
+    /*Static variables cant be autowired*/
 
     @Autowired
     LogEventRepository logEventRepository;
