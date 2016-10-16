@@ -31,7 +31,14 @@ public class IssueResolverApplication {
 
     private final Character m_value = 'a';
 
-    private static LoginEventQueryBuilder loginEventQueryBuilder;
+    @Autowired
+    private LoginEventQueryBuilder loginEventQueryBuilder;
+
+    @Autowired
+    CassandraOperations cassandraOperations;
+
+    @Autowired
+    LogEventRepository logEventRepository;
 
     public String toString() { return "" + m_value; }
 
@@ -43,10 +50,10 @@ public class IssueResolverApplication {
         rxJavaExample3();
         rxJavaExample4();
 
-        CassandraOperations cassandraOperations = context.getBean("cassandraTemplate", CassandraOperations.class);
-        LoginEventQueryBuilder loginEventQueryBuilder = context.getBean("loginEventQueryBuilder", LoginEventQueryBuilder.class);
 
-        LogEventRepository logEventRepository = new LogEventRepository(cassandraOperations, loginEventQueryBuilder);
+    }
+
+    public void cassandraInsert(ConfigurableApplicationContext context) {
         LoginEvent loginEvent = new LoginEvent();
         LoginEventKey loginEventKey = new LoginEventKey();
         loginEventKey.setPersonId("1");
@@ -55,7 +62,6 @@ public class IssueResolverApplication {
         loginEvent.setEventCode(01);
         loginEvent.setIpAddress("20.0.0.0");
         logEventRepository.executeLogEventQuery(loginEvent);
-
     }
 
     public static String concatStrings(List<String> strings) {
