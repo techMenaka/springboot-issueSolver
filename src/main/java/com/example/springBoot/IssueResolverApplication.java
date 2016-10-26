@@ -5,6 +5,9 @@ import com.example.cassandra.LoginEventKey;
 import com.example.cassandra.repository.LogEventRepository;
 import com.example.cassandra.repository.LoginEventQueryBuilder;
 import com.example.rxJava.SimpleObservable;
+import com.example.springMVC.config.AppConfig;
+import com.example.springMVC.config.AppInitializer;
+import com.example.springMVC.controller.CustomerRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
@@ -45,13 +48,18 @@ public class IssueResolverApplication {
 
     public static void main(String[] args) throws IOException {
 
-        ConfigurableApplicationContext context = SpringApplication.run(IssueResolverApplication.class, args);
+       ConfigurableApplicationContext context = SpringApplication.run(IssueResolverApplication.class, args);
+       rxJavaExamples();
+
+        /* Undo the comment to run the MVC example and comment the run on IssueResolverApplication*/
+      // SpringApplication.run(AppConfig.class, args);
+    }
+
+    private static void rxJavaExamples() {
         rxJavaExample();
         rxJavaExample2();
         rxJavaExample3();
         rxJavaExample4();
-
-
     }
 
     public void cassandraInsert(ConfigurableApplicationContext context) {
