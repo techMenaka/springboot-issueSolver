@@ -48,11 +48,11 @@ public class IssueResolverApplication {
 
     public static void main(String[] args) throws IOException {
 
-      // ConfigurableApplicationContext context = SpringApplication.run(IssueResolverApplication.class, args);
-       //rxJavaExamples();
+      ConfigurableApplicationContext context = SpringApplication.run(IssueResolverApplication.class, args);
+        rxJavaExamples();
 
         /* Undo the comment to run the MVC example and comment the run on IssueResolverApplication*/
-       SpringApplication.run(CustomerRestController.class, args);
+       //SpringApplication.run(CustomerRestController.class, args);
     }
 
     private static void rxJavaExamples() {
