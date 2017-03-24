@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="exploded-war" name="issue-resolver">
-    <output-path>$PROJECT_DIR$/build/classes/artifacts/issue_resolver</output-path>
-    <root id="root" />
-  </artifact>
-</component>

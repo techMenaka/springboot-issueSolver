@@ -1,5 +1,6 @@
 # springboot-issueSolver
 
+To execute this project you need a local cassandra instance with a keyspace configured in cassandra.properties
 
 # For the Spring MVC to run, we should start the spring boot with AppConfig
 #  SpringApplication.run(AppConfig.class, args);

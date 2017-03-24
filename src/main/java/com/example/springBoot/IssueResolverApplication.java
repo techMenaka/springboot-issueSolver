@@ -5,26 +5,18 @@ import com.example.cassandra.LoginEventKey;
 import com.example.cassandra.repository.LogEventRepository;
 import com.example.cassandra.repository.LoginEventQueryBuilder;
 import com.example.rxJava.SimpleObservable;
-import com.example.springMVC.config.AppConfig;
-import com.example.springMVC.config.AppInitializer;
-import com.example.springMVC.controller.CustomerRestController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.cassandra.core.CassandraOperations;
+import rx.Observable;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.*;
 
-import rx.Observable;
-import sun.net.www.protocol.http.HttpURLConnection;
+import static com.example.samples.FirstNonRepeated.firstNonRepeatedCharacter;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.example" })
@@ -53,6 +45,8 @@ public class IssueResolverApplication {
 
         /* Undo the comment to run the MVC example and comment the run on IssueResolverApplication*/
        //SpringApplication.run(CustomerRestController.class, args);
+
+        findNonRepeatedCharacter();
     }
 
     private static void rxJavaExamples() {
@@ -116,5 +110,13 @@ public class IssueResolverApplication {
                 }
             }).subscribe( x -> System.out.println(x),
             x -> System.out.println("error"), () -> System.out.println("completed list using complete"));
+    }
+
+    public static void findNonRepeatedCharacter() {
+        System.out.println(" Please enter the input string :" );
+         Scanner in = new Scanner (System.in);
+         String s=in.nextLine();
+        char c=firstNonRepeatedCharacter(s);
+        System.out.println("The first non repeated character is :  " + c);
     }
 }
