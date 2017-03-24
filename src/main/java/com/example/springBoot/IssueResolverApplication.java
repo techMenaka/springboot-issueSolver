@@ -5,6 +5,7 @@ import com.example.cassandra.LoginEventKey;
 import com.example.cassandra.repository.LogEventRepository;
 import com.example.cassandra.repository.LoginEventQueryBuilder;
 import com.example.rxJava.SimpleObservable;
+import com.example.samples.NewThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,10 @@ import rx.Observable;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import static com.example.samples.FirstNonRepeated.firstNonRepeatedCharacter;
 
@@ -23,6 +28,7 @@ import static com.example.samples.FirstNonRepeated.firstNonRepeatedCharacter;
 public class IssueResolverApplication {
     private static final char SEPARATOR = 0x20;
     private static final int MESSAGE_TYPE = 1;
+    private static final int THREAD_POOL_SIZE = 2;
 
     private final Character m_value = 'a';
 
@@ -47,6 +53,13 @@ public class IssueResolverApplication {
        //SpringApplication.run(CustomerRestController.class, args);
 
         findNonRepeatedCharacter();
+        try {
+            newThread();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void rxJavaExamples() {
@@ -119,4 +132,19 @@ public class IssueResolverApplication {
         char c=firstNonRepeatedCharacter(s);
         System.out.println("The first non repeated character is :  " + c);
     }
+
+    public static void newThread() throws ExecutionException, InterruptedException {
+        ExecutorService executor = Executors
+                .newFixedThreadPool(THREAD_POOL_SIZE);
+
+        Future<String> future1 = executor.submit(new NewThread());
+        Future<String> future2 = executor.submit(new NewThread());
+
+        System.out.println(Thread.currentThread().getName() + " executing ...");
+
+        //asynchronously get from the worker threads
+        System.out.println(future1.get());
+        System.out.println(future2.get());
+    }
+
 }
